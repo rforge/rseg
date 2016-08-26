@@ -22,6 +22,7 @@
 #' plot(airct)
 plot.segmentation <- function(x, ...) {
   nouts <- length(unlist(strsplit(as.character(formula(x[[1]][[1]])[2]), "[+]")))
+  print(nouts)
   if (nouts > 1) stop("plot function does currently not support multivariate outcomes")
   if (nrow(x[[1]][[1]]$data) == 0) {
     dat <- x[[1]][[1]]$data.save
