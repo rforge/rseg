@@ -30,7 +30,7 @@ The algorithm makes use of \link[evtree]{evtree} to construct a recursive segmen
 }
 \examples{
 ### regression
-airq <- subset(airquality, !is.na(Ozone) & complete.cases(airquality))
+airq <- subset(airquality, complete.cases(airquality))
 set.seed(1234)
 airseg <- eSeg(Ozone ~ ., data = airq)
 airseg
@@ -38,7 +38,7 @@ plot(airseg)
 
 ### classification
 set.seed(1234)
-irisseg <- eSeg(Species ~ .,data = iris)
+irisseg <- eSeg(Species ~ ., data = iris)
 irisseg
 plot(irisseg)
 }

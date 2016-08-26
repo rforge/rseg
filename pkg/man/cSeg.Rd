@@ -35,8 +35,13 @@ airseg <- cSeg(Ozone ~ ., data = airq)
 airseg
 plot(airseg)
 
+# Here, observations with missing values are processed by surrogate splits
+airseg2 <- cSeg(Ozone ~ ., data = airq, maxsurrogate = 1)
+airseg2
+plot(airseg2)
+
 ### classification
-irisseg <- cSeg(Species ~ .,data = iris)
+irisseg <- cSeg(Species ~ ., data = iris)
 irisseg
 plot(irisseg)
 
@@ -49,7 +54,7 @@ plot(GBSG2seg)
 }
 
 ### multivariate responses
-airseg2 <- cSeg(Ozone + Temp ~ ., data = airq)
-airseg2
+airseg3 <- cSeg(Ozone + Temp ~ ., data = airq)
+airseg3
 }
 
