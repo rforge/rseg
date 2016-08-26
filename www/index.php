@@ -45,7 +45,7 @@ echo $contents; } ?>
 
 <p> <b> R install command of the corresponding <code>rseg</code> package: <strong><code>install.packages("rseg", repos="http://R-Forge.R-project.org")</code></strong></b></p>
 
-<p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
+<p> The <strong>project summary page</strong> can be found <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 
 </body>
 </html>
