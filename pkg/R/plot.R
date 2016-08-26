@@ -12,6 +12,7 @@
 #' @param ... additional arguments passed to \link[partykit]{plot.constparty}.
 #'
 #' @export
+#' @import stats
 #' @import graphics
 #'
 #' @examples
