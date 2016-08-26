@@ -29,7 +29,7 @@
 #'
 #' ### classification
 #' set.seed(1234)
-#' irisseg <- rSeg(Species ~ .,data = iris)
+#' irisseg <- rSeg(Species ~ ., data = iris)
 #' irisseg
 #' plot(irisseg)
 #'
