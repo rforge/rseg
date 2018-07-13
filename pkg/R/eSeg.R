@@ -10,6 +10,7 @@
 #'
 #' @param formula a symbolic description of the model to be fit.
 #' @param data a data frame that contains the variables in the model.
+#' @param maxsegs maximal number of segments
 #' @param maxdepth maximal depth of the tree models used for recursive segmentation. The number of decision rules that define a segment can be controled this way.
 #' @param minsplit minimal size of a subset to allow for furhter segmentation.
 #' @param minbucket minimal size of a segment.
@@ -18,6 +19,11 @@
 #' @export
 #' @import stats
 #' @import evtree
+#'
+#' @references{
+#' \insertRef{Hapfelmeier2018}{rseg}
+#' }
+#' @importFrom Rdpack reprompt
 #'
 #' @examples
 #' ### regression
@@ -33,14 +39,15 @@
 #' irisseg
 #' plot(irisseg)
 
-eSeg <- function(formula, data, maxdepth = 10L, minsplit = 20L, minbucket = 7L, ...) {
+eSeg <- function(formula, data, maxsegs = Inf, maxdepth = 10L, minsplit = 20L, minbucket = 7L, ...) {
+  if (maxsegs <= 1) stop("'maxsegs' needs to be >1")
   nouts <- length(unlist(strsplit(as.character(formula[2]), "[+]"))) # determine the number of outcome variables
   if (nouts > 1) stop("the evtree routine does currently not support multivariate outcomes")
   terminal_ids <- 999  # dummy to enable start of the loop
   mytrees <- list()  # list to contain the segments
   dat <- data
   i <- 0  # counter to fill in the list
-  while(nrow(dat) > minsplit & max(terminal_ids) > 3 & length(unique(dat[, all.vars(formula)[1]])) > 1) {
+  while(nrow(dat) > minsplit & max(terminal_ids) > 3 & length(unique(dat[, all.vars(formula)[1]])) > 1 & length(mytrees) < maxsegs-1) {
     i <- i + 1
     mytree <- evtree(formula, data = dat, minsplit = minsplit, minbucket = minbucket, maxdepth = maxdepth, ...)
     terminal_ids <- nodeids(mytree, terminal = TRUE)

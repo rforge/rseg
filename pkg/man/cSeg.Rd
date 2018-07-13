@@ -4,12 +4,15 @@
 \alias{cSeg}
 \title{Recursive Segementation by Conditional Inference}
 \usage{
-cSeg(formula, data, maxdepth = 10L, minsplit = 20L, minbucket = 7L, ...)
+cSeg(formula, data, maxsegs = Inf, maxdepth = 10L, minsplit = 20L,
+  minbucket = 7L, ...)
 }
 \arguments{
 \item{formula}{a symbolic description of the model to be fit.}
 
 \item{data}{a data frame that contains the variables in the model.}
+
+\item{maxsegs}{maximal number of segments}
 
 \item{maxdepth}{maximal depth of the tree models used for recursive segmentation. The number of decision rules that define a segment can be controled this way.}
 
@@ -57,4 +60,8 @@ plot(GBSG2seg)
 airseg3 <- cSeg(Ozone + Temp ~ ., data = airq)
 airseg3
 }
-
+\references{
+{
+\insertRef{Hapfelmeier2018}{rseg}
+}
+}

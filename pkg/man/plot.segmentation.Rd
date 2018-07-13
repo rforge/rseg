@@ -26,4 +26,3 @@ airct <- cSeg(Ozone ~ ., data = airq)
 airct
 plot(airct)
 }
-

@@ -25,4 +25,3 @@ aircttree <- gettree(airct)
 aircttree
 plot(aircttree)
 }
-

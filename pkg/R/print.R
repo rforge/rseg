@@ -27,7 +27,9 @@ print.segmentation <- function(x, ...) {
     ns <- sapply(1:segs, function(z) unlist(sum(predict(x[[z]][[1]], type = "node") == x[[z]][[2]])))
     cat("Rules:", "\n")
     sapply(1:(length(x) - 1), function(z) cat("segment", z, ": ", rules[z], " ( n =", ns[z], ")\n"))
-    cat("segment", segs, ":  The complement of segments", 1, "to", segs-1, " ( n =", ns[segs], ")")
+    if (segs == 2) {
+      cat("segment", segs, ":  The complement of segment 1", " ( n =", ns[segs], ")")
+    } else cat("segment", segs, ":  The complement of segments", 1, "to", segs-1, " ( n =", ns[segs], ")")
   }
   else cat("\nThere are no rules. All observations belong to a single segment.\n")
 }

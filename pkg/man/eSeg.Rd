@@ -4,12 +4,15 @@
 \alias{eSeg}
 \title{Recursive Segmentation by Evolutionary Learning}
 \usage{
-eSeg(formula, data, maxdepth = 10L, minsplit = 20L, minbucket = 7L, ...)
+eSeg(formula, data, maxsegs = Inf, maxdepth = 10L, minsplit = 20L,
+  minbucket = 7L, ...)
 }
 \arguments{
 \item{formula}{a symbolic description of the model to be fit.}
 
 \item{data}{a data frame that contains the variables in the model.}
+
+\item{maxsegs}{maximal number of segments}
 
 \item{maxdepth}{maximal depth of the tree models used for recursive segmentation. The number of decision rules that define a segment can be controled this way.}
 
@@ -42,4 +45,8 @@ irisseg <- eSeg(Species ~ ., data = iris)
 irisseg
 plot(irisseg)
 }
-
+\references{
+{
+\insertRef{Hapfelmeier2018}{rseg}
+}
+}

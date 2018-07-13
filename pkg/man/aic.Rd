@@ -40,4 +40,3 @@ aic(irisseg, criterion = 'BIC', family = 'gaussian')
 bic(irisseg, family = 'gaussian')
 
 }
-

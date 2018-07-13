@@ -12,6 +12,7 @@
 #'
 #' @param formula a symbolic description of the model to be fit.
 #' @param data a data frame that contains the variables in the model.
+#' @param maxsegs maximal number of segments
 #' @param maxdepth maximal depth of the tree models used for recursive segmentation. The number of decision rules that define a segment can be controled this way.
 #' @param minsplit minimal size of a subset to allow for furhter segmentation.
 #' @param minbucket minimal size of a segment.
@@ -21,6 +22,10 @@
 #' @import stats
 #' @import partykit
 #'
+#' @references{
+#' \insertRef{Hapfelmeier2018}{rseg}
+#' }
+#' @importFrom Rdpack reprompt
 #'
 #' @examples
 #' ### regression
@@ -51,7 +56,8 @@
 #' airseg3 <- cSeg(Ozone + Temp ~ ., data = airq)
 #' airseg3
 
-cSeg <- function(formula, data, maxdepth = 10L, minsplit = 20L, minbucket = 7L, ...) {
+cSeg <- function(formula, data, maxsegs = Inf, maxdepth = 10L, minsplit = 20L, minbucket = 7L, ...) {
+  if (maxsegs <= 1) stop("'maxsegs' needs to be >1")
   nouts <- length(unlist(strsplit(as.character(formula[2]), "[+]"))) # determine the number of outcome variables
   terminal_ids <- 999  # dummy to enable start of the loop
   mytrees <- list()  # list to contain the segments
@@ -72,6 +78,10 @@ cSeg <- function(formula, data, maxdepth = 10L, minsplit = 20L, minbucket = 7L, 
         mytrees[[i]] <- list(mytree, terminal_ids[unlist(node.select[[1]])["split.varid"] - nouts])  # "- nouts" because the outcome variables are counted
       }
       dat <- subset(dat, select = -aloc, subset = aloc != mytrees[[i]][[2]])
+      if (length(mytrees) == maxsegs-1) {
+        mytrees[[i + 1]] <- list(ctree(formula, data = dat, minsplit = nrow(dat) + 1), 1)
+        break
+      }
     }
   }
   class(mytrees) <- "segmentation"

@@ -4,12 +4,15 @@
 \alias{rSeg}
 \title{Recursive Segmentation by CART}
 \usage{
-rSeg(formula, data, maxdepth = 10L, minsplit = 20L, minbucket = 7L, ...)
+rSeg(formula, data, maxsegs = Inf, maxdepth = 10L, minsplit = 20L,
+  minbucket = 7L, ...)
 }
 \arguments{
 \item{formula}{a symbolic description of the model to be fit.}
 
 \item{data}{a data frame that contains the variables in the model.}
+
+\item{maxsegs}{maximal number of segments}
 
 \item{maxdepth}{maximal depth of the tree models used for recursive segmentation. The number of decision rules that define a segment can be controled this way.}
 
@@ -51,4 +54,8 @@ print(GBSG2seg)
 plot(GBSG2seg)
 }
 }
-
+\references{
+{
+\insertRef{Hapfelmeier2018}{rseg}
+}
+}

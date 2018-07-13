@@ -10,6 +10,7 @@
 #'
 #' @param formula a symbolic description of the model to be fit.
 #' @param data a data frame that contains the variables in the model.
+#' @param maxsegs maximal number of segments
 #' @param maxdepth maximal depth of the tree models used for recursive segmentation. The number of decision rules that define a segment can be controled this way.
 #' @param minsplit minimal size of a subset to allow for furhter segmentation.
 #' @param minbucket minimal size of a segment.
@@ -18,6 +19,11 @@
 #' @export
 #' @import stats
 #' @import rpart
+#'
+#' @references{
+#' \insertRef{Hapfelmeier2018}{rseg}
+#' }
+#' @importFrom Rdpack reprompt
 #'
 #' @examples
 #' ### regression
@@ -42,14 +48,15 @@
 #' plot(GBSG2seg)
 #' }
 
-rSeg <- function(formula, data, maxdepth = 10L, minsplit = 20L, minbucket = 7L, ...) {
+rSeg <- function(formula, data, maxsegs = Inf, maxdepth = 10L, minsplit = 20L, minbucket = 7L, ...) {
+  if (maxsegs <= 1) stop("'maxsegs' needs to be >1")
   nouts <- length(unlist(strsplit(as.character(formula[2]), "[+]"))) # determine the number of outcome variables
   if (nouts > 1) stop("the rpart routine does currently not support multivariate outcomes")
   terminal_ids <- 999  # dummy to enable start of loop
   mytrees <- list()  # list to contain the segments
   rSegdat <- droplevels(data, except = all.vars(formula)[1])  # data used in the loops
   i <- 0  # counter to fill in the list
-  while(max(terminal_ids) > 3) {
+  while(max(terminal_ids) > 3 & length(mytrees) < maxsegs-1) {
     i <- i + 1
     assign("rSegdat", rSegdat, .GlobalEnv)
     mytree <- rpart(formula, data = rSegdat, minsplit = minsplit, minbucket = minbucket, maxdepth = maxdepth, ...)
@@ -68,7 +75,7 @@ rSeg <- function(formula, data, maxdepth = 10L, minsplit = 20L, minbucket = 7L, 
         node.select <- nodeapply(as.party(rpart(update(formula, as.formula(paste("~ factor(aloc == ", paste(terminal_ids, collapse = ") + factor(aloc == "), ")"))), data = rSegdat, minsplit = 2, minbucket = 1, maxdepth = 1, cp = -1)))
         mytrees[[i]] <- list(mytree, terminal_ids[unlist(node.select[[1]])["split.varid"] - nouts])  # "- nouts" because the outcome variables are counted
         rSegdat <- droplevels(subset(rSegdat, select = -aloc, subset = aloc != mytrees[[i]][[2]]), except = all.vars(formula)[1])
-        if (length(unique(rSegdat[, all.vars(formula)[1]])) == 1) { # when the remaining outcome is unique
+        if (length(unique(rSegdat[, all.vars(formula)[1]])) == 1 | length(mytrees) == maxsegs-1) { # when the remaining outcome is unique | maxseg-1 is reached
           mytrees[[i + 1]] <- list(ctree(formula, data = rSegdat, minsplit = nrow(rSegdat) + 1), 1)
           break
         }

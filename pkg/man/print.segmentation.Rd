@@ -19,4 +19,3 @@ airq <- subset(airquality, !is.na(Ozone))
 airct <- cSeg(Ozone ~ ., data = airq)
 airct
 }
-

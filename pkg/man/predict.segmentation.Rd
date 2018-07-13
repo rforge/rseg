@@ -33,4 +33,3 @@ predict(GBSG2seg, type = "prob")
 predict(GBSG2seg, type = "segment")
 }
 }
-
