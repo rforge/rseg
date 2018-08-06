@@ -6,7 +6,7 @@
 #'
 #' @return
 #'
-#' A list of three elements: 1) \code{segments} contains the number of segments in \code{object}, \code{rules} contains a vector of the decision rules that define the segments in \code{object} and 3) \code{size} contains a vector of segment sizes in \code{object}.
+#' A list of three to four elements: 1) \code{segments} contains the number of segments in \code{object}, \code{rules} contains a vector of the decision rules that define the segments in \code{object} and 3) \code{size} contains a vector of segment sizes in \code{object}. 4) In case of Model-based Recursive Segementation there is a fourth element containing the summaries of the models fit to the segments.
 #'
 #' @param object an object of class \code{segmentation} fit by \link{cSeg}, \link{eSeg} or \link{rSeg}.
 #' @param ... not used.
@@ -25,7 +25,12 @@ summary.segmentation <- function(object, ...) {
   names(rules) <- 1:segs
   support <- sapply(1:segs, function(z) unlist(sum(predict(object[[z]][[1]], type = "node") == object[[z]][[2]])))
   if (segs > 1) {
-    list("segments" = segs, "rules" = rules, "size" = support)
+    thelist <- list("segments" = segs, "rules" = rules, "size" = support)
   }
-  else list("segments" = segs, "rules" = "none", "size" = support)
+  else thelist <- list("segments" = segs, "rules" = "none", "size" = support)
+  if (inherits(object,"mob")) {
+    thelist[[4]] <- lapply(1:segs, function(z) summary(object[[z]][[1]], node = object[[z]][[2]]))
+    names(thelist)[4] <- "models"
+  } 
+  thelist
 }

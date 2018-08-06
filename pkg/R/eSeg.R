@@ -2,7 +2,7 @@
 #'
 #' Recursive segmentation based on evolutionary trees.
 #'
-#' The algorithm makes use of \link[evtree]{evtree} to construct a recursive segmentation model. There is a \link[=predict.segmentation]{predict}, \link[=predict.segmentation]{plot}, \link[=predict.segmentation]{summary} and \link[=print.segmentation]{print} function. See the corresponding documentation for details. The function \link[evtree]{evtree} does currently not allow missing values in the covariates.
+#' The algorithm makes use of \link[evtree]{evtree} to construct a recursive segmentation model. There is a \link[=predict.segmentation]{predict}, \link[=plot.segmentation]{plot}, \link[=summary.segmentation]{summary} and \link[=print.segmentation]{print} function. The \link[=gettree]{gettree} function can be used to extract the correspoding tree model. See the corresponding documentation for details. The function \link[evtree]{evtree} does currently not allow missing values in the covariates.
 #'
 #' @return
 #'

@@ -12,7 +12,7 @@
 \item{...}{not used.}
 }
 \value{
-A list of three elements: 1) \code{segments} contains the number of segments in \code{object}, \code{rules} contains a vector of the decision rules that define the segments in \code{object} and 3) \code{size} contains a vector of segment sizes in \code{object}.
+A list of three to four elements: 1) \code{segments} contains the number of segments in \code{object}, \code{rules} contains a vector of the decision rules that define the segments in \code{object} and 3) \code{size} contains a vector of segment sizes in \code{object}. 4) In case of Model-based Recursive Segementation there is a fourth element containing the summaries of the models fit to the segments.
 }
 \description{
 \code{summary} method for objects of class \code{segmentation}.

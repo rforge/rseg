@@ -2,7 +2,7 @@
 #'
 #' Recursive segmentation based on the CART algorithm.
 #'
-#' The algorithm makes use of \link[rpart]{rpart} to construct a recursive segmentation model. The \link[rpart]{prune} funktion is used to determine CART trees of optimal size by the minimal cross-validated error estimate. There is a \link[=predict.segmentation]{predict}, \link[=predict.segmentation]{plot}, \link[=predict.segmentation]{summary} and \link[=print.segmentation]{print} function. See the corresponding documentation for details.
+#' The algorithm makes use of \link[rpart]{rpart} to construct a recursive segmentation model. The \link[rpart]{prune} funktion is used to determine CART trees of optimal size by the minimal cross-validated error estimate. There is a \link[=predict.segmentation]{predict}, \link[=plot.segmentation]{plot}, \link[=summary.segmentation]{summary} and \link[=print.segmentation]{print} function. The \link[=gettree]{gettree} function can be used to extract the correspoding tree model. See the corresponding documentation for details.
 #'
 #' @return
 #'

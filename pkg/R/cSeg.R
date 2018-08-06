@@ -2,7 +2,7 @@
 #'
 #' Recursive segmentation based on conditional inference trees.
 #'
-#' The algorithm makes use of \link[partykit]{ctree} to construct a recursive segmentation model. There is a \link[=predict.segmentation]{predict}, \link[=predict.segmentation]{plot}, \link[=predict.segmentation]{summary} and \link[=print.segmentation]{print} function. The . See the corresponding documentation for details.
+#' The algorithm makes use of \link[partykit]{ctree} to construct a recursive segmentation model. There is a \link[=predict.segmentation]{predict}, \link[=plot.segmentation]{plot}, \link[=summary.segmentation]{summary} and \link[=print.segmentation]{print} function. The \link[=gettree]{gettree} function can be used to extract the correspoding tree model. See the corresponding documentation for details.
 #'
 #'
 #'
