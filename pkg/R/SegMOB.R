@@ -13,9 +13,10 @@
 #' @param formula a symbolic description of the model to be fit.
 #' @param data a data frame that contains the variables in the model.
 #' @param fit A function for fitting the model within each node. For details see \link[partykit]{mob}.
+#' @param weights optional variable of weights contained in data. By default these are treated as case weights but the default can be changed in \link[partykit]{mob_control}.
 #' @param maxsegs maximal number of segments
 #' @param maxdepth maximal depth of the tree models used for recursive segmentation. The number of decision rules that define a segment can be controled this way.
-#' @param minsplit minimal size of a subset to allow for furhter segmentation.
+#' @param minsplit minimal size of a subset to allow for further segmentation.
 #' @param minbucket minimal size of a segment.
 #' @param ... further arguments passed to \link[partykit]{mob_control}.
 #'
@@ -34,11 +35,8 @@
 #'   data("TeachingRatings", package = "AER")
 #'   tr <- subset(TeachingRatings, credits == "more")
 #'   
-#'   myfit <- function(y, x, start = NULL, weights = NULL, offset = NULL, ...) {
-#'     glm(y ~ x, family = gaussian, ...)
-#'   }
 #'   segmob(eval ~ beauty | minority + age + gender + division + native + tenure, 
-#'     data = tr, fit = myfit, weights = students, caseweights = FALSE)
+#'     data = tr, fit = partykit:::lmfit, weights = students, caseweights = FALSE)
 #' }
 
 segmob <- function(formula, data, fit, weights = NULL, maxsegs = Inf, maxdepth = 10L, minsplit = 20L, minbucket = 7L, ...) {

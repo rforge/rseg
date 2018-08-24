@@ -14,11 +14,13 @@ segmob(formula, data, fit, weights = NULL, maxsegs = Inf,
 
 \item{fit}{A function for fitting the model within each node. For details see \link[partykit]{mob}.}
 
+\item{weights}{optional variable of weights contained in data. By default these are treated as case weights but the default can be changed in \link[partykit]{mob_control}.}
+
 \item{maxsegs}{maximal number of segments}
 
 \item{maxdepth}{maximal depth of the tree models used for recursive segmentation. The number of decision rules that define a segment can be controled this way.}
 
-\item{minsplit}{minimal size of a subset to allow for furhter segmentation.}
+\item{minsplit}{minimal size of a subset to allow for further segmentation.}
 
 \item{minbucket}{minimal size of a segment.}
 
@@ -39,10 +41,8 @@ if(require("AER")) {
   data("TeachingRatings", package = "AER")
   tr <- subset(TeachingRatings, credits == "more")
   
-  myfit <- function(y, x, start = NULL, weights = NULL, offset = NULL, ...) {
-    glm(y ~ x, family = gaussian, ...)
-  }
-  segmob(eval ~ beauty | minority + age + gender + division + native + tenure, data = tr, fit = myfit, weights = students, caseweights = FALSE)
+  segmob(eval ~ beauty | minority + age + gender + division + native + tenure, 
+    data = tr, fit = partykit:::lmfit, weights = students, caseweights = FALSE)
 }
 }
 \references{

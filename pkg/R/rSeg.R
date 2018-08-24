@@ -12,7 +12,7 @@
 #' @param data a data frame that contains the variables in the model.
 #' @param maxsegs maximal number of segments
 #' @param maxdepth maximal depth of the tree models used for recursive segmentation. The number of decision rules that define a segment can be controled this way.
-#' @param minsplit minimal size of a subset to allow for furhter segmentation.
+#' @param minsplit minimal size of a subset to allow for further segmentation.
 #' @param minbucket minimal size of a segment.
 #' @param ... further arguments passed to \link[rpart]{rpart.control}.
 #'

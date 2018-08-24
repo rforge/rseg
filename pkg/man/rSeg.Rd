@@ -16,7 +16,7 @@ rseg(formula, data, maxsegs = Inf, maxdepth = 10L, minsplit = 20L,
 
 \item{maxdepth}{maximal depth of the tree models used for recursive segmentation. The number of decision rules that define a segment can be controled this way.}
 
-\item{minsplit}{minimal size of a subset to allow for furhter segmentation.}
+\item{minsplit}{minimal size of a subset to allow for further segmentation.}
 
 \item{minbucket}{minimal size of a segment.}
 
