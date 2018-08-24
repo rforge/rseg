@@ -1,15 +1,15 @@
 Package: rseg
 Type: Package
 Title: recursive segmentation (rseg)
-Version: 0.2.1
+Version: 0.2.2
 Date: 2018-08-06
 Author: Alexander Hapfelmeier [aut, cre]
 Maintainer: Alexander Hapfelmeier <Alexander.Hapfelmeier@tum.de>
 Description: Recursive segmentation (rseg) makes use of recursive partitioning methods to perform exploratory subgroup analysis in an automated manner that resembles the patient rule induction method (PRIM). Therefore, tree models are fit to the data to identify subsets with outstanding outcome values. These are iteratively removed from the data which yields a sequence of subsets, called 'segments'.
 License: GPL (>= 2)
 LazyData: TRUE
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Imports: evtree, rpart, survival, partykit, stats, graphics, Formula (>= 1.2-1), coin, Rdpack
-Suggests: TH.data  (>= 1.0-3), mlbench
+Suggests: TH.data  (>= 1.0-3), mlbench, AER
 URL: http://rseg.r-forge.r-project.org
 RdMacros: Rdpack

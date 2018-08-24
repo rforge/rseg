@@ -1,10 +1,10 @@
-#' Print objects of class \code{segmentation}
+#' Print objects of class \code{rseg}
 #'
-#' \code{print} method for objects of class \code{segmentation}.
+#' \code{print} method for objects of class \code{rseg}.
 #'
 #'
 #'
-#' @param x an object of class \code{segmentation} fit by \link{cSeg}, \link{eSeg} or \link{rSeg}.
+#' @param x an object of class \code{rseg} fit by \link{cseg}, \link{eseg} or \link{rseg}.
 #' @param ... not used.
 #'
 #' @export
@@ -12,10 +12,10 @@
 #'
 #' @examples
 #' airq <- subset(airquality, !is.na(Ozone))
-#' airct <- cSeg(Ozone ~ ., data = airq)
+#' airct <- cseg(Ozone ~ ., data = airq)
 #' airct
 
-print.segmentation <- function(x, ...) {
+print.rseg <- function(x, ...) {
   segs <- length(x)
   theformula <- formula(x[[1]][[1]])
   attributes(theformula) <- NULL
@@ -29,7 +29,7 @@ print.segmentation <- function(x, ...) {
     sapply(1:(length(x) - 1), function(z) cat("segment", z, ": ", rules[z], " ( n =", ns[z], ")\n"))
     if (segs == 2) {
       cat("segment", segs, ":  The complement of segment 1", " ( n =", ns[segs], ")")
-    } else cat("segment", segs, ":  The complement of segments", 1, "to", segs-1, " ( n =", ns[segs], ")")
+    } else cat("segment", segs, ":  The complement of segments", 1, "to", segs-1, " ( n =", ns[segs], ")\n")
   }
   else cat("\nThere are no rules. All observations belong to a single segment.\n")
 }

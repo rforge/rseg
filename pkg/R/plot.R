@@ -1,14 +1,14 @@
-#' Plot objects of class \code{segmentation}
+#' Plot objects of class \code{rseg}
 #'
-#' \code{plot} method for objects of class \code{segmentation}.
+#' \code{plot} method for objects of class \code{rseg}.
 #'
-#' Does currently not support plotting of multivariate outcomes and censored outcomes for \link{eSeg} and \link{rSeg}.
+#' Does currently not support plotting of multivariate outcomes and censored outcomes for \link{eseg} and \link{rseg}.
 #'
 #' @return
 #'
-#' Plot of a \code{segmentation} object.
+#' Plot of a \code{rseg} object.
 #'
-#' @param x an object of class \code{segmentation} fit by \link{cSeg}, \link{eSeg} or \link{rSeg}.
+#' @param x an object of class \code{rseg} fit by \link{cseg}, \link{eseg} or \link{rseg}.
 #' @param ... additional arguments passed to \link[partykit]{plot.constparty}.
 #'
 #' @export
@@ -16,10 +16,10 @@
 #'
 #' @examples
 #' airq <- subset(airquality, !is.na(Ozone))
-#' airct <- cSeg(Ozone ~ ., data = airq)
+#' airct <- cseg(Ozone ~ ., data = airq)
 #' airct
 #' plot(airct)
-plot.segmentation <- function(x, ...) {
+plot.rseg <- function(x, ...) {
   if (inherits(x,"mob")) {
     dat <- x[[1]][[1]]$data
     fit <- x[[1]][[3]]

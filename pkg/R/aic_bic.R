@@ -1,14 +1,14 @@
 #' AIC and BIC guided aggregation of segments
 #'
-#' Functions to aggregate the last segments in a \code{segmentation} object in order to optimize the AIC or BIC.
+#' Functions to aggregate the last segments in a \code{rseg} object in order to optimize the AIC or BIC.
 #'
 #' Depending on the value of the \code{family} argument, the AIC and BIC are extracted from a generalized linear model with identity link function (= \code{"gaussian"}), logit link function (= \code{"binomial"}) or a Cox proportional hazards regression model (= \code{"censored"}). The segmentation provided by \code{x} is used as factor variable in these models.
 #'
 #' @return
 #'
-#' An object of class \code{segmentation}.
+#' An object of class \code{rseg}.
 #'
-#' @param x an object of class \code{segmentation} fit by \link{cSeg}, \link{eSeg} or \link{rSeg}.
+#' @param x an object of class \code{rseg} fit by \link{cseg}, \link{eseg} or \link{rseg}.
 #' @param criterion type of information criterion used. Accepted values are \code{"AIC"} (= default) and \code{"BIC"}.
 #' @param family a description of the error distribution/scale of the outcome. Accepted values are \code{"gaussian"}, \code{"binomial"} and \code{"censored"}.
 #'
@@ -19,7 +19,7 @@
 #'
 #' @examples
 #' airq <- subset(airquality, !is.na(Ozone))
-#' irisseg <- cSeg(Ozone ~ ., minsplit = 10L, minbucket = 3L, data = airq)
+#' irisseg <- cseg(Ozone ~ ., minsplit = 10L, minbucket = 3L, data = airq)
 #' irisseg
 #'
 #' ## The AIC does not suggest aggregation of segments
@@ -31,7 +31,7 @@
 #' bic(irisseg, family = 'gaussian')
 #'
 aic <- function(x, criterion = c("AIC", "BIC")[1], family = c("gaussian", "binomial", "censored")[1]) {
-    aloc <- aloc_const <- predict.segmentation(x, type = "segment")
+    aloc <- aloc_const <- predict.rseg(x, type = "segment")
     penalty <- ifelse(criterion == "AIC", 2, log(nrow(fitted(x[[1]][[1]]))))
     Y <- c(fitted(x[[1]][[1]])[, "(response)"])
     if (family == "binomial") {
@@ -55,7 +55,7 @@ aic <- function(x, criterion = c("AIC", "BIC")[1], family = c("gaussian", "binom
       Y_remain <- Y[!is.element(aloc_const, 1:(aic.min - 1))]
       mytrees[[aic.min]] <- list(ctree(Y_remain ~ as.factor(rep(1, length(Y_remain))), minsplit = length(Y_remain) + 1), 1)
     }
-    class(mytrees) <- "segmentation"
+    class(mytrees) <- "rseg"
     mytrees
 }
 #' @rdname aic

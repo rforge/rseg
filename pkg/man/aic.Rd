@@ -5,30 +5,30 @@
 \alias{bic}
 \title{AIC and BIC guided aggregation of segments}
 \usage{
-aic(x, criterion = c("AIC", "BIC")[1], family = c("gaussian", "binomial",
-  "censored")[1])
+aic(x, criterion = c("AIC", "BIC")[1], family = c("gaussian",
+  "binomial", "censored")[1])
 
 bic(x, family = c("gaussian", "binomial", "censored")[1])
 }
 \arguments{
-\item{x}{an object of class \code{segmentation} fit by \link{cSeg}, \link{eSeg} or \link{rSeg}.}
+\item{x}{an object of class \code{rseg} fit by \link{cseg}, \link{eseg} or \link{rseg}.}
 
 \item{criterion}{type of information criterion used. Accepted values are \code{"AIC"} (= default) and \code{"BIC"}.}
 
 \item{family}{a description of the error distribution/scale of the outcome. Accepted values are \code{"gaussian"}, \code{"binomial"} and \code{"censored"}.}
 }
 \value{
-An object of class \code{segmentation}.
+An object of class \code{rseg}.
 }
 \description{
-Functions to aggregate the last segments in a \code{segmentation} object in order to optimize the AIC or BIC.
+Functions to aggregate the last segments in a \code{rseg} object in order to optimize the AIC or BIC.
 }
 \details{
 Depending on the value of the \code{family} argument, the AIC and BIC are extracted from a generalized linear model with identity link function (= \code{"gaussian"}), logit link function (= \code{"binomial"}) or a Cox proportional hazards regression model (= \code{"censored"}). The segmentation provided by \code{x} is used as factor variable in these models.
 }
 \examples{
 airq <- subset(airquality, !is.na(Ozone))
-irisseg <- cSeg(Ozone ~ ., minsplit = 10L, minbucket = 3L, data = airq)
+irisseg <- cseg(Ozone ~ ., minsplit = 10L, minbucket = 3L, data = airq)
 irisseg
 
 ## The AIC does not suggest aggregation of segments

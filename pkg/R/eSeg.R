@@ -2,11 +2,11 @@
 #'
 #' Recursive segmentation based on evolutionary trees.
 #'
-#' The algorithm makes use of \link[evtree]{evtree} to construct a recursive segmentation model. There is a \link[=predict.segmentation]{predict}, \link[=plot.segmentation]{plot}, \link[=summary.segmentation]{summary} and \link[=print.segmentation]{print} function. The \link[=gettree]{gettree} function can be used to extract the correspoding tree model. See the corresponding documentation for details. The function \link[evtree]{evtree} does currently not allow missing values in the covariates.
+#' The algorithm makes use of \link[evtree]{evtree} to construct a recursive segmentation model. There is a \link[=predict.rseg]{predict}, \link[=plot.rseg]{plot}, \link[=summary.rseg]{summary} and \link[=print.rseg]{print} function. The \link[=gettree]{gettree} function can be used to extract the correspoding tree model. See the corresponding documentation for details. The function \link[evtree]{evtree} does currently not allow missing values in the covariates.
 #'
 #' @return
 #'
-#' An object of class \code{segmentation}.
+#' An object of class \code{rseg}.
 #'
 #' @param formula a symbolic description of the model to be fit.
 #' @param data a data frame that contains the variables in the model.
@@ -29,17 +29,17 @@
 #' ### regression
 #' airq <- subset(airquality, complete.cases(airquality))
 #' set.seed(1234)
-#' airseg <- eSeg(Ozone ~ ., data = airq)
+#' airseg <- eseg(Ozone ~ ., data = airq)
 #' airseg
 #' plot(airseg)
 #'
 #' ### classification
 #' set.seed(1234)
-#' irisseg <- eSeg(Species ~ ., data = iris)
+#' irisseg <- eseg(Species ~ ., data = iris)
 #' irisseg
 #' plot(irisseg)
 
-eSeg <- function(formula, data, maxsegs = Inf, maxdepth = 10L, minsplit = 20L, minbucket = 7L, ...) {
+eseg <- function(formula, data, maxsegs = Inf, maxdepth = 10L, minsplit = 20L, minbucket = 7L, ...) {
   if (maxsegs <= 1) stop("'maxsegs' needs to be >1")
   nouts <- length(unlist(strsplit(as.character(formula[2]), "[+]"))) # determine the number of outcome variables
   if (nouts > 1) stop("the evtree routine does currently not support multivariate outcomes")
@@ -51,16 +51,17 @@ eSeg <- function(formula, data, maxsegs = Inf, maxdepth = 10L, minsplit = 20L, m
     i <- i + 1
     mytree <- evtree(formula, data = dat, minsplit = minsplit, minbucket = minbucket, maxdepth = maxdepth, ...)
     terminal_ids <- nodeids(mytree, terminal = TRUE)
-    dat$aloc <- predict(mytree, type = "node")
+    dat$.aloc <- predict(mytree, type = "node")
     if (max(terminal_ids) == 3) {
-      mytrees[[i]] <- list(mytree, 3)
+      mytrees[[i]] <- list("tree" = mytree, "selected.node" = 3)
     } else {
-    node.select <- nodeapply(ctree(update(formula, as.formula(paste("~ factor(aloc == ", paste(terminal_ids, collapse = ") + factor(aloc == "), ")"))), data = dat, minsplit = 2, minbucket = 1, stump = TRUE, mincriterion = 0))
-    mytrees[[i]] <- list(mytree, terminal_ids[unlist(node.select[[1]])["split.varid"] - nouts])  # "- nouts" because the outcome variables are counted
+    node.select <- nodeapply(ctree(update(formula, as.formula(paste("~ factor(.aloc == ", paste(terminal_ids, collapse = ") + factor(.aloc == "), ")"))), data = dat, minsplit = 2, minbucket = 1, stump = TRUE, mincriterion = 0))
+    mytrees[[i]] <- list("tree" = mytree, "selected.node" = terminal_ids[unlist(node.select[[1]])["split.varid"] - nouts])  # "- nouts" because the outcome variables are counted
     }
-    dat <- subset(dat, select = -aloc, subset = aloc != mytrees[[i]][[2]])
+    dat <- dat[dat$.aloc != mytrees[[i]][[2]], -ncol(dat)]
   }
-  mytrees[[i + 1]] <- list(ctree(formula, data = dat, minsplit = nrow(dat) + 1), 1)
-  class(mytrees) <- "segmentation"
+  mytrees[[i + 1]] <- list("tree" = ctree(formula, data = dat, minsplit = nrow(dat) + 1), "selected.node" = 1)
+  names(mytrees) <- paste("segment", 1:length(mytrees))
+  class(mytrees) <- "rseg"
   mytrees
 }
